@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.galee.core.Constant
+import com.chareem.core.Constant
 import com.test.test_karim2.data.model.*
 
 @Database(entities = [Users::class, Film::class, FilmStok::class],

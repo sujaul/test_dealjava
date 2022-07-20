@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.galee.core.BaseFragment
+import com.chareem.core.BaseFragment
 import com.test.test_karim2.R
 import com.test.test_karim2.databinding.FragmentFourthBinding
 import com.test.test_karim2.feature.main.MainActivity

@@ -1,8 +1,8 @@
 package com.test.test_karim2.feature.main.third
 
 import androidx.lifecycle.*
-import com.galee.core.BaseVM
-import com.galee.core.data.BaseResponse
+import com.chareem.core.BaseVM
+import com.chareem.core.data.BaseResponse
 import com.test.test_karim2.Repository.globalRepository
 import com.test.test_karim2.data.model.Persons
 import kotlinx.coroutines.flow.collect

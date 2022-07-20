@@ -6,9 +6,9 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.galee.core.BaseFragment
-import com.galee.core.data.BaseResponse
-import com.galee.core.util.NetworkUtil
+import com.chareem.core.BaseFragment
+import com.chareem.core.data.BaseResponse
+import com.chareem.core.util.NetworkUtil
 import com.google.android.material.navigation.NavigationView
 import com.test.test_karim2.R
 import com.test.test_karim2.data.model.Persons

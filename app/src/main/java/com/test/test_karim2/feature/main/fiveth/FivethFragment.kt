@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
-import com.galee.core.BaseFragment
-import com.galee.core.Constant
+import com.chareem.core.BaseFragment
+import com.chareem.core.Constant
 import com.google.android.material.navigation.NavigationView
 import com.test.test_karim2.R
 import com.test.test_karim2.databinding.FragmentFivethBinding

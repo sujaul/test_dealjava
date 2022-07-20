@@ -2,7 +2,7 @@ package com.test.test_karim2.feature.main
 
 import android.os.Bundle
 import androidx.navigation.findNavController
-import com.galee.core.BaseActivityBinding
+import com.chareem.core.BaseActivityBinding
 import com.test.test_karim2.R
 import com.test.test_karim2.databinding.ActivityMainBinding
 import com.test.test_karim2.util.gone

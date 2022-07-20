@@ -5,11 +5,10 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.galee.core.BaseFragment
-import com.galee.core.data.BaseResponse
+import com.chareem.core.BaseFragment
+import com.chareem.core.data.BaseResponse
 import com.test.test_karim2.data.model.Register
 import com.test.test_karim2.databinding.FragmentSecondBinding
 import com.test.test_karim2.feature.main.AuthVM

@@ -1,6 +1,6 @@
 package com.dk.dksmtd.di
 
-import com.galee.core.coreModule
+import com.chareem.core.coreModule
 import com.test.test_karim2.Repository.GlobalRepositoryImpl
 import com.test.test_karim2.Repository.globalRepository
 import com.test.test_karim2.data.local.AppDatabase

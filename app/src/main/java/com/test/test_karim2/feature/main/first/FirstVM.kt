@@ -2,9 +2,9 @@ package com.test.test_karim2.feature.main.first
 
 import android.content.Context
 import androidx.lifecycle.*
-import com.galee.core.BaseVM
-import com.galee.core.data.BaseResponse
-import com.galee.core.util.NetworkUtil
+import com.chareem.core.BaseVM
+import com.chareem.core.data.BaseResponse
+import com.chareem.core.util.NetworkUtil
 import com.test.test_karim2.R
 import com.test.test_karim2.Repository.globalRepository
 import com.test.test_karim2.data.model.Film

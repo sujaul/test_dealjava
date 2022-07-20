@@ -5,8 +5,8 @@ import android.content.Context
 import androidx.multidex.MultiDex
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.dk.dksmtd.di.mainModule
-import com.galee.core.Constant
-import com.galee.core.Core
+import com.chareem.core.Constant
+import com.chareem.core.Core
 import com.test.test_karim2.data.local.AppDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

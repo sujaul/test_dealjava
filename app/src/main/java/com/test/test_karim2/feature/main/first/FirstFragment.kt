@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.galee.core.BaseFragment
-import com.galee.core.Constant
-import com.galee.core.data.BaseResponse
+import com.chareem.core.BaseFragment
+import com.chareem.core.Constant
+import com.chareem.core.data.BaseResponse
 import com.test.test_karim2.R
 import com.test.test_karim2.databinding.FragmentFirstBinding
 import com.test.test_karim2.feature.main.MainActivity
