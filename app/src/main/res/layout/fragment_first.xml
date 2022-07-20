@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rc_container_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature.main.MainActivity"
+    android:background="@color/backGroundColor">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/searh_ll"
+            android:layout_margin="@dimen/spacing_medium"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_weight="1"
+                style="@style/EditTextStyle.BgWhite"
+                android:id="@+id/search_et"
+                android:hint="@string/search_hint"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_weight="1"
+                android:id="@+id/search_bt"
+                android:layout_width="@dimen/_114sdp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_chocolate"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:text="@string/search" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <RelativeLayout
+            android:layout_below="@+id/searh_ll"
+            android:padding="@dimen/spacing_medium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include
+                android:id="@+id/empty_content"
+                layout="@layout/content_empty"/>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/rec_third_ll"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
+                    android:id="@+id/recycler_third"
+                    app:fastScrollEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical" />
+            </LinearLayout>
+        </RelativeLayout>
+        <TextView
+            android:layout_margin="@dimen/spacing_middle"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:text="@string/text_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

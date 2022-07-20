@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Test_Karim.Launcher">
+        <!--<item name="android:src">@drawable/user_big</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/light_blue_A200</item>
+        <item name="android:colorBackground">@color/light_blue_A200</item>-->
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_account</item>
+    </style>
+</resources>
