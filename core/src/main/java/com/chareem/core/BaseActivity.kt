@@ -162,9 +162,7 @@ abstract class BaseActivityBinding<VB: ViewBinding> : AppCompatActivity(), BaseI
                         report?.let {
                             if (it.areAllPermissionsGranted()) {
                                 onAllPermissionGranted(level)
-                                Log.d("permissin_", "yes")
                             } else {
-                                Log.d("permissin_", "not")
                                 onDenyPermission(level)
                             }
                         }
