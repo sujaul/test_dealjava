@@ -95,9 +95,10 @@ class GlobalRepositoryImpl(
     }
 
     override suspend fun searchFilm(genre: String): Flow<List<FilmAndFilmstokRelation>> {
+        var data: Flow<List<FilmAndFilmstokRelation>> = db.filmDAO().filmAndFilmStokByGenre(genre)
+        //var data: Flow<List<FilmAndFilmstokRelation>> = flowOf(dataList)
         val dataList = if (genre == "") db.filmDAO().allFilmAndFilmStokByGenreSus()
-            else db.filmDAO().filmAndFilmStokByGenreSus(genre)
-        var data: Flow<List<FilmAndFilmstokRelation>> = flowOf(dataList)
+        else db.filmDAO().filmAndFilmStokByGenreSus(genre)
         if (dataList.isEmpty()){
             val input = if (genre == "") "action" else genre
             val response = service.search(input).await()
@@ -144,6 +145,30 @@ class GlobalRepositoryImpl(
         }
         return data
     }
+
+    override suspend fun addStok(film: Film, stok: Int) {
+        val filmStok = FilmStok()
+        filmStok.film_id = film.id
+        filmStok.stok_awal = stok
+        filmStok.credit = 1
+        filmStok.debit = 0
+        filmStok.stok_ahir = stok+1
+        filmStok.created_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+        filmStok.updated_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+        db.filmStokDAO().insertSus(filmStok)
+    }
+
+    override suspend fun minusStok(film: Film, stok: Int) {
+        val filmStok = FilmStok()
+        filmStok.film_id = film.id
+        filmStok.stok_awal = stok
+        filmStok.credit = 0
+        filmStok.debit = 1
+        filmStok.stok_ahir = stok-1
+        filmStok.created_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+        filmStok.updated_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+        db.filmStokDAO().insertSus(filmStok)
+    }
 }
 
 interface globalRepository{
@@ -155,4 +180,6 @@ interface globalRepository{
     suspend fun getUserByUsername(username: String): Flow<List<Users>>
     suspend fun saveUser(username: String, password: String)
     suspend fun searchFilm(genre: String): Flow<List<FilmAndFilmstokRelation>>
+    suspend fun addStok(film: Film, stok: Int)
+    suspend fun minusStok(film: Film, stok: Int)
 }

@@ -110,4 +110,12 @@ object UserInterfaceUtil {
         snackbarView.addView(customView, 0)
         snackbar.show()
     }
+
+    fun capitalizeFirstString(str: String): String {
+        var retStr = str
+        try {
+            retStr = str.substring(0, 1).uppercase() + str.substring(1)
+        } catch (e: Exception) { }
+        return retStr
+    }
 }

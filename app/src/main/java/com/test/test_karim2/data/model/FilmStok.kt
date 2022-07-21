@@ -39,6 +39,9 @@ interface FilmStokDAO {
     @Query("SELECT * FROM film_stok WHERE id = :id ORDER BY updated_at DESC")
     fun allByIdFlow(id : Int): Flow<List<FilmStok>>
 
+    @Query("SELECT * FROM film_stok WHERE film_id = :film_id ORDER BY updated_at ASC")
+    suspend fun allByIdFilmFlow(film_id : String): List<FilmStok>
+
     @Query("SELECT * FROM film_stok ORDER BY updated_at DESC")
     fun allFlow(): Flow<List<FilmStok>>
 

@@ -17,57 +17,91 @@
         app:contentPadding="@dimen/spacing_medium"
         app:cardElevation="5dp">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/image_ll"
                 android:layout_weight="1"
-                android:layout_marginEnd="@dimen/spacing_medium"
-                android:padding="@dimen/spacing_small"
-                android:background="@drawable/white_bordered_bg"
-                android:id="@+id/img_poster"
-                android:layout_width="220dp"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:padding="@dimen/spacing_small"
+                    android:background="@drawable/white_bordered_bg"
+                    android:id="@+id/img_poster"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
             <RelativeLayout
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="@dimen/spacing_middle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/name_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/colorPrimary"
                     tools:text="Name"/>
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/genre_tv"
                     android:layout_below="@+id/name_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@android:color/black"
-                    tools:text="Name"/>
-                <TextView
+                    tools:text="Genre"/>
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/stok_tv"
                     android:layout_below="@+id/genre_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@android:color/holo_green_light"
-                    tools:text="Name"/>
-                <TextView
+                    tools:text="Stok"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    app:autoSizeTextType="uniform"
                     android:layout_below="@+id/stok_tv"
                     android:id="@+id/description_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_small"
+                    android:textSize="@dimen/text_xsmall"
                     android:textColor="@android:color/holo_red_dark"
-                    tools:text="Name"/>
+                    tools:text="Description"/>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/description_tv"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:id="@+id/return_bt"
+                        android:layout_width="@dimen/_40ssp"
+                        android:layout_height="@dimen/_18ssp"
+                        android:background="@drawable/button_chocolate_r5"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/text_xsmall"
+                        android:textColor="@color/white"
+                        android:text="@string/retun" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:id="@+id/borrow_bt"
+                        android:layout_width="@dimen/_40ssp"
+                        android:layout_height="@dimen/_18ssp"
+                        android:background="@drawable/button_chocolate_r5"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/text_xsmall"
+                        android:textColor="@color/white"
+                        android:text="@string/borrow" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </RelativeLayout>
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

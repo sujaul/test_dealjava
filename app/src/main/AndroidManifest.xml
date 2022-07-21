@@ -48,6 +48,12 @@
             android:theme="@style/Theme.Test_Karim.NoActionBar"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".feature.ImageViewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.Test_Karim.NoActionBar"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

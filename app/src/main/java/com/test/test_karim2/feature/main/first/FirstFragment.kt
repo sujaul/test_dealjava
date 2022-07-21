@@ -15,6 +15,7 @@ import com.chareem.core.Constant
 import com.chareem.core.data.BaseResponse
 import com.test.test_karim2.R
 import com.test.test_karim2.databinding.FragmentFirstBinding
+import com.test.test_karim2.feature.ImageViewActivity
 import com.test.test_karim2.feature.ItemFilm
 import com.test.test_karim2.feature.main.MainActivity
 import com.test.test_karim2.util.gone
@@ -93,9 +94,13 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
                         binding.recFirstLl.visible()
                         filmGroupAdapter.clear()
                         response.data.map {
-                            filmGroupAdapter.add(ItemFilm(it) { film, pos ->
-
-                            })
+                            filmGroupAdapter.add(ItemFilm(it, { film, stok ->
+                                vmFirst.addStok(film, stok)
+                            }, { film, stok ->
+                                vmFirst.minusStok(film, stok)
+                            }, { film, pos ->
+                                startActivity(ImageViewActivity.newInstance(mContext, pos.toString(), film.films.name, film.films.url))
+                            }))
                         }
                     }
                 }

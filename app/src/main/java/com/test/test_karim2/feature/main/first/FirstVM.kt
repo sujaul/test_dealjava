@@ -38,4 +38,26 @@ class FirstVM(private val userRepository: globalRepository): BaseVM() {
 
         }
     }
+
+    fun addStok(film: Film, stok: Int){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                userRepository.addStok(film, stok)
+            }.onSuccess { data ->
+
+            }.onFailure {
+            }
+        }
+    }
+
+    fun minusStok(film: Film, stok: Int){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                userRepository.minusStok(film, stok)
+            }.onSuccess { data ->
+
+            }.onFailure {
+            }
+        }
+    }
 }

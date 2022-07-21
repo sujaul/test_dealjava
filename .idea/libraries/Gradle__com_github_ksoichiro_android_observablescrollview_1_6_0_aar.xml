@@ -32,6 +32,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/08e41650a6c9077bc862e05a95f41146/transformed/jetified-android-observablescrollview-1.6.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/08e41650a6c9077bc862e05a95f41146/transformed/jetified-android-observablescrollview-1.6.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/08e41650a6c9077bc862e05a95f41146/transformed/jetified-android-observablescrollview-1.6.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/01d76d1d76491fbe6e95917bcbd65544/transformed/jetified-android-observablescrollview-1.6.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/01d76d1d76491fbe6e95917bcbd65544/transformed/jetified-android-observablescrollview-1.6.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/01d76d1d76491fbe6e95917bcbd65544/transformed/jetified-android-observablescrollview-1.6.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.github.ksoichiro/android-observablescrollview/1.6.0/23c72bb51d649a397c2b8cff666d91f6f0b2fdad/android-observablescrollview-1.6.0-javadoc.jar!/" />

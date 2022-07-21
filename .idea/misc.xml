@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="..\:/Test/Test_Karim2/app/src/main/res/layout/snackbar_icon_text.xml" value="0.1" />
         <entry key="..\:/Test/Test_Karim2/app/src/main/res/layout/toast_icon_text.xml" value="0.22" />
         <entry key="..\:/Test/Test_Karim2/core/src/main/res/layout/snackbar_icon_text.xml" value="0.25" />
@@ -47,12 +48,17 @@
         <entry key="..\:/Test/test_suitmedia_2/app/src/main/res/menu/menu_events_map.xml" value="0.19947916666666668" />
         <entry key="..\:/Test/test_suitmedia_2/app/src/main/res/menu/menu_gender.xml" value="0.19947916666666668" />
         <entry key="..\:/Test/test_suitmedia_2/app/src/main/res/menu/menu_profile.xml" value="0.19947916666666668" />
+        <entry key="app/src/main/res/drawable-mdpi/button_chocolate_r5.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/button_chocolate.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/button_chocolate_r5.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/button_white.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/click_bg_transparent.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/click_bg_transparent_r5.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/edittext_bg.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/ic_home_baseline.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/launch_screen.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/white_bordered_bg.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_image_view.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_user_detail.xml" value="0.1" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.1716485507246377" />
@@ -65,7 +71,7 @@
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_third.xml" value="0.14764492753623187" />
         <entry key="app/src/main/res/layout/item_event.xml" value="0.1716485507246377" />
-        <entry key="app/src/main/res/layout/item_film.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_film.xml" value="0.2237960339943343" />
         <entry key="app/src/main/res/layout/item_guests.xml" value="0.1716485507246377" />
         <entry key="app/src/main/res/layout/item_list_user.xml" value="0.26296296296296295" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.14764492753623187" />

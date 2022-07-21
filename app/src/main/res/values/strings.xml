@@ -8,6 +8,8 @@
     <!--First Screen-->
     <string name="search_hint">Type a genre</string>
     <string name="search">Search</string>
+    <string name="borrow">Borrow</string>
+    <string name="retun">Return</string>
     <string name="fullname_hint">Full Name</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
