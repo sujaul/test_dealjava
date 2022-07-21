@@ -11,19 +11,21 @@ data class FilmStok(
         @ColumnInfo(name = "film_id")
         var film_id: String = "",
         @ColumnInfo(name = "stok_awal")
-        var stok_awal: String = "",
+        var stok_awal: Int = 0,
         @ColumnInfo(name = "debit") // pengurangan
-        var debit: String = "",
+        var debit: Int = 0,
         @ColumnInfo(name = "credit")
-        var credit: String = "", // penambahan
+        var credit: Int = 0, // penambahan
         @ColumnInfo(name = "stok_ahir")
-        var stok_ahir: String = "",
+        var stok_ahir: Int = 0,
         @ColumnInfo(name = "created_at")
         var created_at: String = "",
         @ColumnInfo(name = "updated_at")
         var updated_at: String = ""
 ){
     @Ignore constructor() : this(0)
+    @Ignore
+    var film : Film? = null
 }
 
 @Dao

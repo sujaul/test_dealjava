@@ -41,4 +41,13 @@ interface FilmDAO {
 
     @Query("DELETE FROM film WHERE id = :id")
     suspend fun deleteByIdSus(id : Int)
+
+    @Query("SELECT * FROM FilmAndFilmstokRelation WHERE FilmAndFilmstokRelation.genre LIKE :genre or FilmAndFilmstokRelation.genre = :genre ORDER BY name DESC")
+    fun filmAndFilmStokByGenre(genre : String): Flow<List<FilmAndFilmstokRelation>>
+
+    @Query("SELECT * FROM FilmAndFilmstokRelation WHERE FilmAndFilmstokRelation.genre LIKE :genre or FilmAndFilmstokRelation.genre = :genre ORDER BY name DESC")
+    suspend fun filmAndFilmStokByGenreSus(genre : String): List<FilmAndFilmstokRelation>
+
+    @Query("SELECT * FROM FilmAndFilmstokRelation ORDER BY name DESC")
+    suspend fun allFilmAndFilmStokByGenreSus(): List<FilmAndFilmstokRelation>
 }

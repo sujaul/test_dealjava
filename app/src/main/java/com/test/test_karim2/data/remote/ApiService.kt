@@ -18,7 +18,7 @@ interface ApiService {
      */
     @GET("vod/search")
     fun search(
-        @Field("genre") genre: String
+        @Query("genre") genre: String
     ): Deferred<Response<FilmResponse>>
 
     /**

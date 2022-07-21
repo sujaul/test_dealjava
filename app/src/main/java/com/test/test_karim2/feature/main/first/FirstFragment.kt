@@ -2,18 +2,25 @@ package com.test.test_karim2.feature.main.first
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.chareem.core.BaseFragment
 import com.chareem.core.Constant
 import com.chareem.core.data.BaseResponse
 import com.test.test_karim2.R
 import com.test.test_karim2.databinding.FragmentFirstBinding
+import com.test.test_karim2.feature.ItemFilm
 import com.test.test_karim2.feature.main.MainActivity
+import com.test.test_karim2.util.gone
+import com.test.test_karim2.util.visible
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -23,9 +30,9 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
         const val TAG = "FirstFragment"
     }
 
+    private val filmGroupAdapter = GroupAdapter<GroupieViewHolder>()
     private val navController by lazy { findNavController() }
     private val vmFirst: FirstVM by viewModel()
-    private var isFirstLoad = false
     private val data_pref by lazy {
         requireContext().getSharedPreferences(Constant.data_pref, Context.MODE_PRIVATE)
     }
@@ -33,7 +40,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     override fun onResume() {
         super.onResume()
         val activity = mActivity as MainActivity
-        activity.setTittel("Home", true)
+        activity.setTittel("Home", isVisibleBack = false )
     }
 
     override fun getTagName(): String = TAG
@@ -42,26 +49,19 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     }
 
     private fun init(){
+        setupRecycler()
         observVm()
         binding.searchBt.setOnClickListener {
-            val searchEt = binding.searchEt.text
-            validaetSearch(searchEt.toString())
+            val searchtxt = binding.searchEt.text.toString().trim { it <= ' '}
+            vmFirst.serchFilm(searchtxt, mContext)
+        }
+        binding.refreshSrl.setOnRefreshListener {
+            val searchtxt = binding.searchEt.text.toString().trim { it <= ' '}
+            vmFirst.serchFilm(searchtxt, mContext)
         }
         val text = "<font color=#000000>Don't have account ? </font><font color=#d84372>Register</font>"
         val htmTxt = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        vmFirst.serchFilm("action", mContext)
-    }
-
-    private fun validaetSearch(genre: String?){
-        if (genre.isNullOrEmpty()){
-            showSnackBarMessage("info", "Username should not be empty")
-            return
-        }
-        vmFirst.serchFilm(genre, mContext)
-    }
-
-    private fun openSecondScreen(){
-        navController.navigate(R.id.nav_second,bundle)
+        vmFirst.serchFilm("", mContext)
     }
 
     private fun openThirdScreen(){
@@ -77,23 +77,31 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
         vmFirst.searchFilm.observe(this, Observer { response ->
             when(response){
                 is BaseResponse.Loading-> {
-                    isFirstLoad = true
-                    showDialogLoading("Logging in, please wait...")
+                    binding.refreshSrl.isRefreshing = true
+                    //showDialogLoading("Loading, please wait...")
                 }
                 is BaseResponse.Success -> {
-                    hideDialogLoading()
-                    if (isFirstLoad){
-                        if (response.data.isEmpty()){
-                            showSnackBarMessage("danger", "Authentication failed, please check your username or passford")
-                        } else {
-                            openThirdScreen()
+                    binding.refreshSrl.isRefreshing = false
+                    //hideDialogLoading()
+
+                    if (response.data.isEmpty()){
+                        binding.emptyContent.rlEmpty.visible()
+                        binding.recFirstLl.gone()
+                        showSnackBarMessage("danger", "Authentication failed, please check your username or passford")
+                    } else {
+                        binding.emptyContent.rlEmpty.gone()
+                        binding.recFirstLl.visible()
+                        filmGroupAdapter.clear()
+                        response.data.map {
+                            filmGroupAdapter.add(ItemFilm(it) { film, pos ->
+
+                            })
                         }
                     }
-                    isFirstLoad = false
                 }
                 is BaseResponse.Error->{
-                    isFirstLoad = false
-                    hideDialogLoading()
+                    binding.refreshSrl.isRefreshing = false
+                    //hideDialogLoading()
                     showSnackBarMessage("danger", response.message)
                 }
             }
@@ -103,5 +111,18 @@ class FirstFragment : BaseFragment<FragmentFirstBinding>() {
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?,
                             savedInstanceState: Boolean): FragmentFirstBinding {
         return FragmentFirstBinding.inflate(inflater, container, savedInstanceState)
+    }
+
+    private fun setupRecycler(){
+        val recycler = binding.recyclerFirst
+        recycler.apply {
+            val linearLayout = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+            layoutManager = linearLayout
+            adapter = filmGroupAdapter
+        }
     }
 }

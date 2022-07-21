@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rc_container_login"
@@ -8,33 +8,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".feature.main.MainActivity"
     android:background="@color/backGroundColor">
-    <RelativeLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/searh_ll"
+        android:layout_margin="@dimen/spacing_medium"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatEditText
+            android:layout_weight="1"
+            style="@style/EditTextStyle.BgWhite"
+            android:id="@+id/search_et"
+            android:hint="@string/search_hint"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_weight="1"
+            android:id="@+id/search_bt"
+            android:layout_width="@dimen/_114sdp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_chocolate"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="@string/search" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_srl"
+        android:layout_below="@+id/searh_ll"
+        android:layout_above="@+id/footer_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/searh_ll"
-            android:layout_margin="@dimen/spacing_medium"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.appcompat.widget.AppCompatEditText
-                android:layout_weight="1"
-                style="@style/EditTextStyle.BgWhite"
-                android:id="@+id/search_et"
-                android:hint="@string/search_hint"/>
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_weight="1"
-                android:id="@+id/search_bt"
-                android:layout_width="@dimen/_114sdp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_chocolate"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:text="@string/search" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
         <RelativeLayout
-            android:layout_below="@+id/searh_ll"
             android:padding="@dimen/spacing_medium"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -43,24 +45,26 @@
                 layout="@layout/content_empty"/>
             <LinearLayout
                 android:visibility="gone"
-                android:id="@+id/rec_third_ll"
+                android:id="@+id/rec_first_ll"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
-                    android:id="@+id/recycler_third"
-                    app:fastScrollEnabled="true"
+                    android:id="@+id/recycler_first"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scrollbars="vertical" />
             </LinearLayout>
         </RelativeLayout>
-        <TextView
-            android:layout_margin="@dimen/spacing_middle"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:text="@string/text_footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <TextView
+        android:id="@+id/footer_tv"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/spacing_medium"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="@string/text_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

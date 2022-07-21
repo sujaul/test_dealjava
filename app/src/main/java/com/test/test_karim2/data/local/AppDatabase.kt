@@ -8,7 +8,7 @@ import com.chareem.core.Constant
 import com.test.test_karim2.data.model.*
 
 @Database(entities = [Users::class, Film::class, FilmStok::class],
-     version = 6, exportSchema = true)
+    views = [FilmAndFilmstokRelation::class], version = 6, exportSchema = true)
 
 abstract class AppDatabase : RoomDatabase() {
 

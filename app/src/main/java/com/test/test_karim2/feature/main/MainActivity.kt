@@ -56,7 +56,7 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(), CoroutineScope,
         return /*navController.navigateUp(appBarConfiguration) ||*/ super.onSupportNavigateUp()
     }
 
-    fun setTittel(tittle: String, isVisible: Boolean = true){
+    fun setTittel(tittle: String, isVisible: Boolean = true, isVisibleBack : Boolean = true){
         binding.titleBar.text = tittle
         if (isVisible) {
             setSupportActionBar(binding.toolbar)
@@ -64,6 +64,9 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(), CoroutineScope,
                 super.onBackPressed()
             }
             binding.appbar.visible()
+            if (isVisibleBack)
+                binding.imgBack.visible()
+            else binding.imgBack.gone()
         }
         else {
             setSupportActionBar(binding.toolbar)

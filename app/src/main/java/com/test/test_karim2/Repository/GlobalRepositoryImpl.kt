@@ -1,5 +1,6 @@
 package com.test.test_karim2.Repository
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -7,9 +8,11 @@ import com.test.test_karim2.data.local.AppDatabase
 import com.test.test_karim2.data.model.*
 import com.test.test_karim2.data.remote.ApiService
 import com.test.test_karim2.data.remote.ErrorMessage
+import com.test.test_karim2.util.DateOperationUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -91,12 +94,15 @@ class GlobalRepositoryImpl(
         db.userDAO().insertSus(user)
     }
 
-    override suspend fun searchFilm(genre: String): Flow<List<Film>> {
-        var data: Flow<List<Film>> = db.filmDAO().allByGenreFlow(genre)
-        data.collect {
-            if (it.isEmpty()){
-                val response = service.search(genre).await()
-                if (response.isSuccessful){
+    override suspend fun searchFilm(genre: String): Flow<List<FilmAndFilmstokRelation>> {
+        val dataList = if (genre == "") db.filmDAO().allFilmAndFilmStokByGenreSus()
+            else db.filmDAO().filmAndFilmStokByGenreSus(genre)
+        var data: Flow<List<FilmAndFilmstokRelation>> = flowOf(dataList)
+        if (dataList.isEmpty()){
+            val input = if (genre == "") "action" else genre
+            val response = service.search(input).await()
+            if (response.isSuccessful){
+                try {
                     response.body()?.let {res ->
                         if (res.code == 200){
                             val filmList = ArrayList<Film>()
@@ -104,24 +110,35 @@ class GlobalRepositoryImpl(
                                 val film = Film()
                                 film.id = it._id
                                 film.name = it.title
-                                film.genre = genre
+                                film.genre = input
                                 film.description = it.meta_description
-                                film.url = it.poster.url
+                                film.url = "https:${it.poster.url}"
                                 db.filmDAO().insertSus(film)
+                                val filmStok = FilmStok()
+                                filmStok.film_id = it._id
+                                filmStok.stok_awal = 0
+                                filmStok.credit = 1
+                                filmStok.debit = 0
+                                filmStok.stok_ahir = 1
+                                filmStok.created_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+                                filmStok.updated_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+                                db.filmStokDAO().insertSus(filmStok)
                                 filmList.add(film)
                             }
-                            data = flowOf(filmList)
+                            data = db.filmDAO().filmAndFilmStokByGenre(input)
                         } else throw Throwable(res.reason)
                     } ?: throw Throwable("The body is null")
+                } catch (e: Exception){
+                    throw Throwable(e.message)
+                }
+            } else {
+                if (response.errorBody()!=null) {
+                    val json: String = response.errorBody()!!.string()
+                    val obj: JsonObject = JsonParser().parse(json).asJsonObject
+                    val error = Gson().fromJson(obj, ErrorMessage::class.java)
+                    throw Throwable(error.reason)
                 } else {
-                    if (response.errorBody()!=null) {
-                        val json: String = response.errorBody()!!.string()
-                        val obj: JsonObject = JsonParser().parse(json).asJsonObject
-                        val error = Gson().fromJson(obj, ErrorMessage::class.java)
-                        throw Throwable(error.reason)
-                    } else {
-                        throw Throwable("The error body is null")
-                    }
+                    throw Throwable("The error body is null")
                 }
             }
         }
@@ -137,5 +154,5 @@ interface globalRepository{
     suspend fun getUserByUsernameAndPass(username: String, password: String): Flow<List<Users>>
     suspend fun getUserByUsername(username: String): Flow<List<Users>>
     suspend fun saveUser(username: String, password: String)
-    suspend fun searchFilm(genre: String): Flow<List<Film>>
+    suspend fun searchFilm(genre: String): Flow<List<FilmAndFilmstokRelation>>
 }

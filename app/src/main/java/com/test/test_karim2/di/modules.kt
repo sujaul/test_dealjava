@@ -7,6 +7,7 @@ import com.test.test_karim2.data.local.AppDatabase
 import com.test.test_karim2.data.mapper.UserMapper
 import com.test.test_karim2.data.remote.ApiService
 import com.test.test_karim2.feature.main.AuthVM
+import com.test.test_karim2.feature.main.first.FirstVM
 import com.test.test_karim2.feature.main.fourth.FourthVM
 import com.test.test_karim2.feature.main.third.ThirdVM
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -18,6 +19,7 @@ val databaseModule = module {
 }
 
 val vmModule = module {
+    viewModel { FirstVM(get()) }
     viewModel { FourthVM(get()) }
     viewModel { AuthVM(get()) }
     viewModel { ThirdVM(get()) }
