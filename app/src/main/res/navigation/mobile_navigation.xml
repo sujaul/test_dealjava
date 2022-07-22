@@ -11,49 +11,12 @@
         android:label="first screen"
         app:popUpToInclusive="true"
         tools:layout="@layout/fragment_first">
-        <action
+        <!--<action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/nav_second" />
         <action
             android:id="@+id/action_FirstFragment_to_ThirdFragment"
-            app:destination="@id/nav_third" />
+            app:destination="@id/nav_third" />-->
     </fragment>
-
-    <fragment
-        android:id="@+id/nav_second"
-        android:name="com.test.test_karim2.feature.main.second.SecondFragment"
-        android:label="second screen"
-        app:popUpToInclusive="true"
-        tools:layout="@layout/fragment_second">
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_third"
-        android:name="com.test.test_karim2.feature.main.third.ThirdFragment"
-        android:label="thrid screen"
-        app:popUpToInclusive="true"
-        tools:layout="@layout/fragment_third">
-        <action
-            android:id="@+id/action_ThirdFragment_to_FivethFragment"
-            app:destination="@id/nav_fiveth" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_fourth"
-        android:name="com.test.test_karim2.feature.main.fourth.FourthFragment"
-        android:label="thrid screen"
-        app:popUpToInclusive="true"
-        tools:layout="@layout/fragment_fourth">
-        <action
-            android:id="@+id/action_FourthFragment_to_ThirdFragment"
-            app:destination="@id/nav_third" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_fiveth"
-        android:name="com.test.test_karim2.feature.main.fiveth.FivethFragment"
-        app:popUpToInclusive="true"
-        android:label="thrid screen"
-        tools:layout="@layout/fragment_fiveth"/>
 
 </navigation>

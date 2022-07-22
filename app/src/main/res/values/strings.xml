@@ -6,35 +6,10 @@
     <string name="no_data">Data Empty</string>
 
     <!--First Screen-->
-    <string name="search_hint">Type a genre</string>
+    <string name="search_hint">Type a book name</string>
     <string name="search">Search</string>
     <string name="borrow">Borrow</string>
     <string name="retun">Return</string>
-    <string name="fullname_hint">Full Name</string>
-    <string name="email_hint">Email</string>
-    <string name="password_hint">Password</string>
-    <string name="phone_hint">Phone</string>
-    <string name="gender">Gender</string>
-    <string name="login">Login</string>
-    <string name="welcome">Welcome</string>
-    <string name="suite_mobile_test">This is app for Folkatech mobile developer test</string>
+    <string name="view">View</string>
     <string name="text_footer"><![CDATA[Copyright © 2022 Sujaul_Karim All rights reserved]]></string>
-    <string name="register_label">Don\'t have account ? Register</string>
-    <string-array name="gender_list">
-        <item></item>
-        <item>Male</item>
-        <item>Female</item>
-    </string-array>
-
-    <!--Second Screen-->
-    <string name="term_condition">I Agree with Term and Condition</string>
-    <string name="register">Register</string>
-
-    <!--Third Screen-->
-    <string name="menu_home">Home</string>
-    <string name="menu_profile">Profile</string>
-
-    <!--Fiveth Screen-->
-    <string name="logout">Logout</string>
-
 </resources>

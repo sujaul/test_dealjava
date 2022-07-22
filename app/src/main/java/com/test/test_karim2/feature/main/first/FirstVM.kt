@@ -1,29 +1,29 @@
 package com.test.test_karim2.feature.main.first
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
 import com.chareem.core.BaseVM
 import com.chareem.core.data.BaseResponse
 import com.chareem.core.util.NetworkUtil
 import com.test.test_karim2.R
 import com.test.test_karim2.Repository.globalRepository
-import com.test.test_karim2.data.model.Film
-import com.test.test_karim2.data.model.FilmAndFilmstokRelation
+import com.test.test_karim2.data.model.Book
+import com.test.test_karim2.data.model.BookReport
+import com.test.test_karim2.data.model.BookStokRelation
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class FirstVM(private val userRepository: globalRepository): BaseVM() {
     override fun getTagName(): String = javaClass.simpleName
 
-    private val _get = MutableLiveData<BaseResponse<List<FilmAndFilmstokRelation>>>()
-    val searchFilm: LiveData<BaseResponse<List<FilmAndFilmstokRelation>>> = _get
+    private val _get = MutableLiveData<BaseResponse<List<BookStokRelation>>>()
+    val searchBook: LiveData<BaseResponse<List<BookStokRelation>>> = _get
 
-    fun serchFilm(genre: String, context: Context){
+    fun serchBook(tittle: String, context: Context){
         viewModelScope.launch {
             kotlin.runCatching {
                 _get.value = BaseResponse.Loading()
-                userRepository.searchFilm(genre)
+                userRepository.searchBook(tittle)
             }.onSuccess { data ->
                 data.let {
                   it.collect { it2  ->
@@ -39,7 +39,7 @@ class FirstVM(private val userRepository: globalRepository): BaseVM() {
         }
     }
 
-    fun addStok(film: Film, stok: Int){
+    fun addStok(film: Book, stok: Int){
         viewModelScope.launch {
             kotlin.runCatching {
                 userRepository.addStok(film, stok)
@@ -50,7 +50,7 @@ class FirstVM(private val userRepository: globalRepository): BaseVM() {
         }
     }
 
-    fun minusStok(film: Film, stok: Int){
+    fun minusStok(film: Book, stok: Int){
         viewModelScope.launch {
             kotlin.runCatching {
                 userRepository.minusStok(film, stok)
@@ -59,5 +59,9 @@ class FirstVM(private val userRepository: globalRepository): BaseVM() {
             }.onFailure {
             }
         }
+    }
+
+    suspend fun getReport(book_id: String): BookReport {
+        return userRepository.getReport(book_id)
     }
 }

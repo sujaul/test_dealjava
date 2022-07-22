@@ -29,10 +29,15 @@ import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener
+import com.permissionx.guolindev.PermissionX
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import timber.log.Timber
+import kotlin.coroutines.CoroutineContext
 
 abstract class BaseBottomSheetDialogFragment<VB: ViewBinding> : BottomSheetDialogFragment(),
-    BaseImplDialog, BaseImplSnackBar, BaseImplToast, BaseImplPermission {
+    BaseImplDialog, BaseImplSnackBar, BaseImplToast, BaseImplPermission, CoroutineScope {
 
     abstract fun getTagName(): String
     lateinit var bindingSheet: VB
@@ -51,6 +56,9 @@ abstract class BaseBottomSheetDialogFragment<VB: ViewBinding> : BottomSheetDialo
     private var pDialog: Dialog? = null
     private var snackbar : Snackbar? = null
     protected val bundle = Bundle()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + Job()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -224,6 +232,26 @@ abstract class BaseBottomSheetDialogFragment<VB: ViewBinding> : BottomSheetDialo
                     )
                 ).onSameThread().check()
         }
+    }
+
+    protected fun onRunPermissionX(permissions: MutableList<String>, level: Int) {
+        Timber.i("${getTagName()} onRunPermission() called")
+        PermissionX.init(this)
+            .permissions(permissions)
+            .onForwardToSettings { scope, deniedList ->
+                scope.showForwardToSettingsDialog(
+                    deniedList,
+                    "You need to grant all permission in Settings manually",
+                    "OK",
+                    "Cancel"
+                )
+            }.request { allGranted, grantedList, deniedList ->
+                if (allGranted) {
+                    onAllPermissionGranted(level)
+                } else {
+                    onDenyPermission(level)
+                }
+            }
     }
 
     override fun onAllPermissionGranted(level: Int) {

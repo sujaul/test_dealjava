@@ -37,6 +37,6 @@ sealed class BaseResponse<out T : Any> {
      * 3 = Error Bugs, 4 = Tidak Ada Data, else = Unknown Error ()
      *
      **/
-    class Error(val exception: Throwable, val case: Int = 4, val message: String = if (exception.localizedMessage == null) exception.message ?: "Internal server error, periksa jaringan anda!" else exception.localizedMessage!!) :
+    class Error(val exception: Throwable, val case: Int = 4, val message: String = if (exception.localizedMessage == null) exception.message ?: "Network is bussy, please check again later" else exception.localizedMessage!!) :
         BaseResponse<Nothing>()
 }

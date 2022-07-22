@@ -10,9 +10,6 @@ import com.test.test_karim2.data.remote.ApiService
 import com.test.test_karim2.data.remote.ErrorMessage
 import com.test.test_karim2.util.DateOperationUtil
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -22,112 +19,58 @@ class GlobalRepositoryImpl(
 
     private val db: AppDatabase by inject()
 
-    override suspend fun registerUser(data: Register): ResponseParser {
-        var res = ResponseParser()
-        val response = service.register(data).await()
-        if (response.isSuccessful){
-            response.body()?.let {
-                res = it
-            }
-        } else {
-            if (response.errorBody()!=null) {
-                val json: String = response.errorBody()!!.string()
-                val obj: JsonObject = JsonParser().parse(json).asJsonObject
-                val error = Gson().fromJson(obj, ErrorMessage::class.java)
-                throw Throwable(error.message)
-            } else {
-                throw Throwable("The error body is null")
-            }
-        }
-        return res
-    }
-
-
-
-
-    override suspend fun getUserToApi(page: Int, per_page: Int): Flow<List<Persons>> {
-        var data: Flow<List<Persons>> = flowOf(arrayListOf())
-        val response = service.getEvents(page, per_page).await()
-        if (response.isSuccessful){
-            response.body()?.let {
-                it.data?.let {users ->
-                    data = flowOf(users)
-                }
-            }
-        } else {
-            if (response.errorBody()!=null) {
-                val json: String = response.errorBody()!!.string()
-                val obj: JsonObject = JsonParser().parse(json).asJsonObject
-                val error = Gson().fromJson(obj, ErrorMessage::class.java)
-                throw Throwable(error.message)
-            } else {
-                throw Throwable("The error body is null")
-            }
-        }
-        return data
-    }
-
-    override suspend fun getUserLocal(): Flow<List<Users>> {
-        val allFlow = db.userDAO().allFlow()
-        return allFlow
-    }
-
-    override suspend fun getUserByUsernameAndPass(
-        username: String,
-        password: String
-    ): Flow<List<Users>> {
-        return db.userDAO().allFlowByUsernameAndPass(username, password)
-    }
-
-    override suspend fun getUserByUsername(
-        username: String): Flow<List<Users>> {
-        return db.userDAO().allFlowByUsername(username)
-    }
-
-    override suspend fun saveUser(
-        username: String,
-        password: String
-    ) {
-        val user = Users()
-        user.username = username
-        user.password = password
-        db.userDAO().insertSus(user)
-    }
-
-    override suspend fun searchFilm(genre: String): Flow<List<FilmAndFilmstokRelation>> {
-        var data: Flow<List<FilmAndFilmstokRelation>> = db.filmDAO().filmAndFilmStokByGenre(genre)
-        //var data: Flow<List<FilmAndFilmstokRelation>> = flowOf(dataList)
-        val dataList = if (genre == "") db.filmDAO().allFilmAndFilmStokByGenreSus()
-        else db.filmDAO().filmAndFilmStokByGenreSus(genre)
+    override suspend fun searchBook(tittle: String): Flow<List<BookStokRelation>> {
+        var data: Flow<List<BookStokRelation>> = db.bookDAO().filmAndFilmStokByGenre("%$tittle%")
+        val dataList = db.bookDAO().filmAndFilmStokByGenreSus("%$tittle%")
         if (dataList.isEmpty()){
-            val input = if (genre == "") "action" else genre
+            val input = if (tittle == "") "flowers+intitle:flowers" else "$tittle+intitle:$tittle"
             val response = service.search(input).await()
             if (response.isSuccessful){
                 try {
                     response.body()?.let {res ->
-                        if (res.code == 200){
-                            val filmList = ArrayList<Film>()
-                            res.response.forEach {
-                                val film = Film()
-                                film.id = it._id
-                                film.name = it.title
-                                film.genre = input
-                                film.description = it.meta_description
-                                film.url = "https:${it.poster.url}"
-                                db.filmDAO().insertSus(film)
-                                val filmStok = FilmStok()
-                                filmStok.film_id = it._id
-                                filmStok.stok_awal = 0
-                                filmStok.credit = 1
-                                filmStok.debit = 0
-                                filmStok.stok_ahir = 1
-                                filmStok.created_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
-                                filmStok.updated_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
-                                db.filmStokDAO().insertSus(filmStok)
-                                filmList.add(film)
+                        if (res.totalItems > 0){
+                            val bookList = ArrayList<Book>()
+                            res.items?.forEach {
+                                val book = Book()
+                                book.id = it.id
+                                book.name = it.volumeInfo?.title ?: ""
+                                var author = ""
+                                it.volumeInfo?.authors?.let { arr ->
+                                    arr.forEachIndexed { index, jsonElement ->
+                                        author += jsonElement.asString
+                                        if (index < arr.size() -1)
+                                            author += ", "
+                                    }
+                                }
+                                book.author = author
+                                var genre = ""
+                                it.volumeInfo?.categories?.let { arr ->
+                                    arr.forEachIndexed { index, jsonElement ->
+                                        genre += jsonElement.asString
+                                        if (index < arr.size() -1)
+                                            genre += ", "
+                                    }
+                                }
+                                book.genre = genre
+                                book.description = it.searchInfo?.textSnippet ?: ""
+                                book.url = it.volumeInfo?.imageLinks?.thumbnail ?: ""
+                                book.publisher = it.volumeInfo?.publisher ?: ""
+                                book.published_date = it.volumeInfo?.publishedDate ?: ""
+                                book.qty = 1 // set by devault
+                                db.bookDAO().insertSus(book)
+                                val bookStok = BookStok()
+                                bookStok.book_id = it.id
+                                bookStok.stok_awal = 0
+                                bookStok.credit = 1 // set by devault
+                                bookStok.debit = 0
+                                bookStok.stok_ahir = 1 // set by devault
+                                bookStok.created_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+                                bookStok.updated_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+                                db.bookStokDAO().insertSus(bookStok)
+                                bookList.add(book)
                             }
-                            data = db.filmDAO().filmAndFilmStokByGenre(input)
-                        } else throw Throwable(res.reason)
+                            data = db.bookDAO().filmAndFilmStokByGenre("%$tittle%")
+                        }
                     } ?: throw Throwable("The body is null")
                 } catch (e: Exception){
                     throw Throwable(e.message)
@@ -146,40 +89,45 @@ class GlobalRepositoryImpl(
         return data
     }
 
-    override suspend fun addStok(film: Film, stok: Int) {
-        val filmStok = FilmStok()
-        filmStok.film_id = film.id
-        filmStok.stok_awal = stok
-        filmStok.credit = 1
-        filmStok.debit = 0
-        filmStok.stok_ahir = stok+1
-        filmStok.created_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
-        filmStok.updated_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
-        db.filmStokDAO().insertSus(filmStok)
+    override suspend fun addStok(book: Book, stok: Int) {
+        val bookStok = BookStok()
+        bookStok.book_id = book.id
+        bookStok.stok_awal = stok
+        bookStok.credit = 1
+        bookStok.debit = 0
+        bookStok.stok_ahir = stok+1
+        bookStok.created_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+        bookStok.updated_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+        db.bookStokDAO().insertSus(bookStok)
     }
 
-    override suspend fun minusStok(film: Film, stok: Int) {
-        val filmStok = FilmStok()
-        filmStok.film_id = film.id
-        filmStok.stok_awal = stok
-        filmStok.credit = 0
-        filmStok.debit = 1
-        filmStok.stok_ahir = stok-1
-        filmStok.created_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
-        filmStok.updated_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
-        db.filmStokDAO().insertSus(filmStok)
+    override suspend fun minusStok(book: Book, stok: Int) {
+        val bookStok = BookStok()
+        bookStok.book_id = book.id
+        bookStok.stok_awal = stok
+        bookStok.credit = 0
+        bookStok.debit = 1
+        bookStok.stok_ahir = stok-1
+        bookStok.created_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+        bookStok.updated_at = DateOperationUtil.getCurrentTimeStr("yyyy-MM-dd HH:mm:ss")
+        db.bookStokDAO().insertSus(bookStok)
+    }
+
+    override suspend fun getReport(book_id: String): BookReport {
+        val credit = db.bookStokDAO().allByBookIdCredit(book_id)
+        val debit = db.bookStokDAO().oneByBookIdDebit(book_id)
+        val bookReport = BookReport()
+        if (credit.size > 1){
+            bookReport.return_date = credit[0].created_at
+        } else bookReport.return_date = "No return date"
+        bookReport.borrow_date = debit?.created_at ?: "No borrow date"
+        return bookReport
     }
 }
 
 interface globalRepository{
-    suspend fun registerUser(data: Register) : ResponseParser
-
-    suspend fun getUserToApi(page: Int, per_page: Int): Flow<List<Persons>>
-    suspend fun getUserLocal(): Flow<List<Users>>?
-    suspend fun getUserByUsernameAndPass(username: String, password: String): Flow<List<Users>>
-    suspend fun getUserByUsername(username: String): Flow<List<Users>>
-    suspend fun saveUser(username: String, password: String)
-    suspend fun searchFilm(genre: String): Flow<List<FilmAndFilmstokRelation>>
-    suspend fun addStok(film: Film, stok: Int)
-    suspend fun minusStok(film: Film, stok: Int)
+    suspend fun searchBook(tittle: String): Flow<List<BookStokRelation>>
+    suspend fun addStok(book: Book, stok: Int)
+    suspend fun minusStok(book: Book, stok: Int)
+    suspend fun getReport(book_id: String): BookReport
 }

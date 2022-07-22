@@ -7,14 +7,13 @@ import androidx.room.RoomDatabase
 import com.chareem.core.Constant
 import com.test.test_karim2.data.model.*
 
-@Database(entities = [Users::class, Film::class, FilmStok::class],
-    views = [FilmAndFilmstokRelation::class], version = 18, exportSchema = true)
+@Database(entities = [Book::class, BookStok::class],
+    views = [BookStokRelation::class], version = 24, exportSchema = true)
 
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun userDAO(): UsersDAO
-    abstract fun filmDAO(): FilmDAO
-    abstract fun filmStokDAO(): FilmStokDAO
+    abstract fun bookDAO(): BookDAO
+    abstract fun bookStokDAO(): BookStokDAO
 
     companion object {
         var database: AppDatabase? = null

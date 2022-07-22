@@ -1,5 +1,6 @@
 package com.chareem.core
 
+import android.Manifest
 import android.app.Dialog
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -24,10 +25,15 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.permissionx.guolindev.PermissionX
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import timber.log.Timber
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseActivityBinding<VB: ViewBinding> : AppCompatActivity(), BaseImplDialog,
-    BaseImplSnackBar, BaseImplToast, BaseImplPermission {
+abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity(), BaseImplDialog,
+    BaseImplSnackBar, BaseImplToast, BaseImplPermission, CoroutineScope {
 
     abstract fun getTagName(): String
     abstract fun onCreateUI(savedInstanceState: Bundle?)
@@ -37,6 +43,9 @@ abstract class BaseActivityBinding<VB: ViewBinding> : AppCompatActivity(), BaseI
     private var pDialog: Dialog? = null
     private var snackbar : Snackbar? = null
     protected val bundle = Bundle()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + Job()
 
     override fun onStart() {
         super.onStart()
@@ -57,7 +66,7 @@ abstract class BaseActivityBinding<VB: ViewBinding> : AppCompatActivity(), BaseI
         super.onResume()
         Timber.i(" ${getTagName()} onResume() called")
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        onRunPermission(Constant.permissions, 0)
+        //onRunPermissionX(Constant.permissions, 0)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -176,10 +185,39 @@ abstract class BaseActivityBinding<VB: ViewBinding> : AppCompatActivity(), BaseI
                     }
                 }
             ).withErrorListener {
-                Toast.makeText(this@BaseActivityBinding, "Error occurred! ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@BaseActivity, "Error occurred! ", Toast.LENGTH_SHORT).show()
             }
             .onSameThread()
             .check()
+    }
+
+    protected fun onRunPermissionX(permissions: MutableList<String>, level: Int) {
+        Timber.i("${getTagName()} onRunPermission() called")
+        PermissionX.init(this)
+            .permissions(permissions)
+            .onForwardToSettings { scope, deniedList ->
+                scope.showForwardToSettingsDialog(
+                    deniedList,
+                    "You need to grant all permission in Settings manually",
+                    "OK",
+                    "Cancel"
+                )
+            }.request { allGranted, grantedList, deniedList ->
+                if (allGranted) {
+                    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (!Settings.canDrawOverlays(applicationContext)) {
+                            val intent = Intent(
+                                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                Uri.parse("package:" + application.packageName)
+                            )
+                            startActivity(intent)
+                        }
+                    }*/
+                    onAllPermissionGranted(level)
+                } else {
+                    onDenyPermission(level)
+                }
+            }
     }
 
     override fun onAllPermissionGranted(level: Int) {

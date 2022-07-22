@@ -2,7 +2,7 @@ package com.test.test_karim2.feature.main
 
 import android.os.Bundle
 import androidx.navigation.findNavController
-import com.chareem.core.BaseActivityBinding
+import com.chareem.core.BaseActivity
 import com.test.test_karim2.R
 import com.test.test_karim2.databinding.ActivityMainBinding
 import com.test.test_karim2.util.gone
@@ -13,20 +13,16 @@ import kotlinx.coroutines.Job
 import org.koin.core.component.KoinComponent
 import kotlin.coroutines.CoroutineContext
 
-class MainActivity : BaseActivityBinding<ActivityMainBinding>(), CoroutineScope, KoinComponent {
+class MainActivity : BaseActivity<ActivityMainBinding>(), KoinComponent {
 
     companion object{
         const val TAG = "MainActivity"
-        val username = "username"
     }
 
 
     private val navController by lazy {
         findNavController(R.id.nav_host_fragment)
     }
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + Job()
 
     override fun getTagName(): String = TAG
 

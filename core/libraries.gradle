@@ -17,6 +17,7 @@ ext {
     def compressor = '3.0.1'
     def custom_crash = '2.3.0'
     def permission = '6.0.1' // DEXTER
+    def permissionx = '1.6.1'
     def picasso = '2.5.2'
     def glide = '4.10.0'
     def ripple = '1.0.2'
@@ -82,7 +83,8 @@ ext {
     ]
 
     permissionDependencies = [
-            dexter : "com.karumi:dexter:$permission"
+            dexter : "com.karumi:dexter:$permission",
+            pemissionx : "com.guolindev.permissionx:permissionx:$permissionx"
     ]
 
     dimensDependencies = [
