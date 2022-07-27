@@ -13,6 +13,7 @@
     <dimen name="spacing_mxlarge">@dimen/_25sdp</dimen>
     <dimen name="spacing_xlarge">@dimen/_35sdp</dimen>
     <dimen name="spacing_xmlarge">@dimen/_40sdp</dimen>
+    <dimen name="spacing_xllarge">@dimen/_45sdp</dimen>
     <dimen name="spacing_xxlarge">@dimen/_50sdp</dimen>
     <dimen name="spacing_xxxlarge">@dimen/_55sdp</dimen>
 

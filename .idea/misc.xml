@@ -83,6 +83,8 @@
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.2359375" />
         <entry key="app/src/main/res/menu/menu_events.xml" value="0.18020833333333333" />
         <entry key="app/src/main/res/menu/menu_events_map.xml" value="0.18020833333333333" />
+        <entry key="core/src/main/res/layout/snackbar_icon_text.xml" value="0.2" />
+        <entry key="core/src/main/res/layout/toast_icon_text.xml" value="0.33" />
       </map>
     </option>
   </component>
